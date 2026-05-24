@@ -11,20 +11,6 @@ class Protection(commands.Cog):
         self.bot = bot
         self.message_history = {}  # user_id -> list of (timestamp, message_object)
 
-    def _get_trust_score(self, user_id, guild_id, member):
-        # ==========================================
-        # MANUAL TESTING OVERRIDE:
-        # Change this to 100 for HIGH trust testing, 
-        # or change it to 0 for LOW trust testing.
-        # Remove or comment out this line when you are done testing!
-        return 0  
-        # ==========================================
-        
-        user_data = database.get_user_data(user_id, guild_id)
-        if not user_data:
-            return 0
-        return utils.calculate_trust_score(user_data, member)
-
     async def log_to_channel(self, guild, embed):
         log_channel_id = getattr(config, "LOG_CHANNEL_ID", None)
         if not log_channel_id:
