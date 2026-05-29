@@ -22,10 +22,10 @@ class Trust(commands.Cog):
         embed = discord.Embed(title=f"Trust Factor: {member.display_name}", color=discord.Color.green())
         embed.add_field(name="Score", value=f"{score}/100", inline=False)
         embed.add_field(name="Messages Analyzed", value=str(user_data[2]), inline=True)
-        # Convert string to datetime object for formatting if it's a string
+        # Handle string/datetime formatting
         first_seen = user_data[4]
         if isinstance(first_seen, str):
-             # Simplified parsing, assuming standard format from sqlite default
+             # Parse default sqlite timestamp
              first_seen = first_seen.split('.')[0] 
         else:
              first_seen = first_seen.strftime("%Y-%m-%d %H:%M:%S")

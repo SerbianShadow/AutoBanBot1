@@ -29,7 +29,6 @@ def init_db():
                     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )''')
 
-    # Spam messages table stores flagged content before deletion for audit
     c.execute('''CREATE TABLE IF NOT EXISTS spam_messages (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     user_id INTEGER,
@@ -40,7 +39,6 @@ def init_db():
                     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )''')
 
-    # Strikes tabe stores cumulative spam strikes
     c.execute('''CREATE TABLE IF NOT EXISTS user_strikes (
                     user_id INTEGER,
                     guild_id INTEGER,
@@ -49,7 +47,7 @@ def init_db():
                     PRIMARY KEY(user_id, guild_id)
                 )''')
                 
-    # Safely add the last_strike column if updating an existing database
+    # Add column for legacy DB Support
     try:
         c.execute("ALTER TABLE user_strikes ADD COLUMN last_strike TIMESTAMP")
     except sqlite3.OperationalError:

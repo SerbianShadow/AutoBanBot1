@@ -103,7 +103,7 @@ async def check_phishing(content):
         if domain.startswith("www."):
             domain = domain[4:]
             
-        # Exact match against the massive JSON lists using O(1) sets
+        # Exact match against domain lists
         if domain in config.SUSPICIOUS_LINKS_SET or url in config.SUSPICIOUS_LINKS_SET:
             return True, url
             
@@ -422,11 +422,11 @@ async def check_domain_entropy(content):
         except:
             core_domain = url.lower()
             
-        # Ignore short names they aren't long enough to be random
+        # Skip short domains (too short for entropy checks)
         if len(core_domain) < min_length:
             continue
             
-        # Check if it looks like a keyboard smash
+        # Calculate entropy to detect DGA (Domain Generation Algorithms)
         score = calculate_entropy(core_domain)
         if score > threshold:
             print(f"[Log] [!] DGA Warning: Domain '{core_domain}' looks randomly generated! (Score: {score:.2f})")
